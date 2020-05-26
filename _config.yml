@@ -2,17 +2,16 @@ remote_theme: thelehhman/texture
 theme: texture
 texture:
   title: 杨晓晨
-  tagline: Developer. Designer
+  tagline: iOS Developer. Designer
   date_format: "%b %-d, %Y"
   style: red
   showPicker: false
-  disqus_shortname: games
+  # disqus_shortname: games
   showNav: true
   show_excerpts: true
   social_links:
-    twitter: thelehhman
-    github:  thelehhman
-    linkedIn: in/thelehhman # format: locale/username
+    github:  xiaochenyung
+    linkedIn: in/晓晨-杨-374aa41aa # format: locale/username
   navigation:
     - title: My Work
       url: "/my-work"
