@@ -1,0 +1,111 @@
+---
+layout: post
+title:  "SwiftUI 分享"
+date:   2019-08-21 17:51:19 +0800
+categories: SwiftUI Swift
+---
+# 简介
+SwiftUI 是一种具有创新性的、非常简单的工具，它可以利用 Swift 的强大能力仅仅需要一套工具和 API 就可以构建苹果各个平台的 UI 页面。SwiftUI 阅读和书写起来都非常简单和自然，并且可与新的 Xcode 设计工具无缝协作，使你的代码和设计完美同步。SwiftUI 自动支持动态类型、黑暗模式、本地化和可访问性，你的 SwiftUI 代码将成为你写过的最强大的 UI 代码。
+
+https://developer.apple.com/tutorials/swiftui
+# 新建一个 SwiftUI 文件
+* Xcode -> New File -> User Interface -> SwiftUI View
+
+初始化的文件
+
+```
+struct SwiftUIView: View {
+    var body: some View {
+		Text("Hello World!")
+    }
+}
+```
+* 点击 Editor -> Canvas 可以在右侧调出预览窗口
+
+按住 command 再用鼠标点击 UI 控件可以修改其相应的属性
+
+* SwiftUIView_Previews 是一个遵从 PreviewProvider 结构体，在该结构体的 previews
+
+ 属性中返回一个初始化的遵从 View 协议的结构体实例即可预览
+
+* 预览还支持多机型同时预览，需要指定
+```
+struct SwiftUIView_Previews: PreviewProvider {
+	static var previews: some View {
+        ForEach(["iPhone SE", "iPhone XS Max"], id: \.self) { deviceName in
+            SwiftUIView()
+                .previewDevice(PreviewDevice(rawValue: deviceName))
+                .previewDisplayName(deviceName)
+        }
+    }
+}
+```
+* 完整的列表
+```
+    ///     "Mac"
+    ///     "iPhone 7"
+    ///     "iPhone 7 Plus"
+    ///     "iPhone 8"
+    ///     "iPhone 8 Plus"
+    ///     "iPhone SE"
+    ///     "iPhone X"
+    ///     "iPhone Xs"
+    ///     "iPhone Xs Max"
+    ///     "iPhone Xʀ"
+    ///     "iPad mini 4"
+    ///     "iPad Air 2"
+    ///     "iPad Pro (9.7-inch)"
+    ///     "iPad Pro (12.9-inch)"
+    ///     "iPad (5th generation)"
+    ///     "iPad Pro (12.9-inch) (2nd generation)"
+    ///     "iPad Pro (10.5-inch)"
+    ///     "iPad (6th generation)"
+    ///     "iPad Pro (11-inch)"
+    ///     "iPad Pro (12.9-inch) (3rd generation)"
+    ///     "iPad mini (5th generation)"
+    ///     "iPad Air (3rd generation)"
+    ///     "Apple TV"
+    ///     "Apple TV 4K"
+    ///     "Apple TV 4K (at 1080p)"
+    ///     "Apple Watch Series 2 - 38mm"
+    ///     "Apple Watch Series 2 - 42mm"
+    ///     "Apple Watch Series 3 - 38mm"
+    ///     "Apple Watch Series 3 - 42mm"
+    ///     "Apple Watch Series 4 - 40mm"
+    ///     "Apple Watch Series 4 - 44mm"
+```
+*     打开和关闭 canvas 快捷键 command + option + enter
+# SwiftUI Layout
+* 通过使用 VStack、HStack、frame、offset、padding 加一些 UI 控件来进行布局
+* 基本 UI 元素，区分于（VStack 和 HStack）可以在容器类型（VStack 和 HStack）中进行排列
+* UI 元素可以通过链式编程的写法描述该元素的各种属性
+* VStack 和 HStack 可以任意嵌套使用
+* Spacer() 用于撑开上下或者左右的元素，类似在两个元素之间插入一个弹簧，将分隔的元素左右或者上下撑开
+* some 关键字
+
+some 是 Swift5.1 新出的一个关键字，是为了解决在泛型中不必每次都要书写泛型所对应的类型的问题，如果没有该关键字，那么就需要在 SwiftUI 中每次返回 View 时需要将对应的类型指定好
+
+# 列表
+* 一个列表渲染的例子如下
+```
+NavigationView {
+  List(landmarkData) { landmark in
+    NavigationLink(destination: LandmarkDetail(landmark: landmark)) {
+      LandmarkRow(landmark: landmark)
+    }
+  }
+  .navigationBarTitle(Text("地标列表"))
+}
+```
+* 列表中标识数据的模型需要遵从 Identifiable 协议
+
+该协议需要返回一个 id 属性，该属性需要遵从 Hashable 协议, 其作用是为了在列表渲染时提高性能。
+
+* 列表可以使用条件渲染
+# 数据绑定
+* 使用 @EnvironmentObject 来修饰声明的变量时，可以在初始化的时候使用 environmentObject 方法将数据传递到变量中
+* 对于使用遵从ObservableObject 协议的数据的更改，UI 使用者会自动更新
+# 小结
+* 布局代码很少，减少出 bug 的几率
+* UI 控件的属性有所改变，有一定的学习成本
+* 可以与 UIKit 混编
